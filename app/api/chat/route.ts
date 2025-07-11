@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
   // 2. Buscamos los contenidos relevantes usando la función RPC (RAG)
   const { data: matches, error } = await supabase.rpc("match_page_sections", {
     query_embedding: embedding,
-    match_threshold: 0.7,
+    match_threshold: 0.2,
     match_count: 5,
     min_content_length: 20
   });
