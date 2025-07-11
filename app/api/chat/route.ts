@@ -34,8 +34,9 @@ export async function POST(req: NextRequest) {
   });
 
   if (error) {
-    return NextResponse.json({ result: "Error buscando información en la base." });
-  }
+  console.log("Supabase RPC error:", error);
+  return NextResponse.json({ result: "Error buscando información en la base." });
+}
 
   if (!matches || matches.length === 0) {
     return NextResponse.json({ result: "No encontré información relevante en la base de conocimiento." });
