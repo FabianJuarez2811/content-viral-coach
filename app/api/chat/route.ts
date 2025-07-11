@@ -29,8 +29,8 @@ export async function POST(req: NextRequest) {
   // 2. Buscamos los contenidos relevantes usando la función RPC (RAG)
   const { data: matches, error } = await supabase.rpc("match_page_sections", {
     query_embedding: embedding,      // 👈 Nombre debe coincidir con tu función SQL
-    match_threshold: 0.2,
-    match_count: 5,
+    match_threshold: 0.05,
+    match_count: 20,
     min_content_length: 20,
   });
 
