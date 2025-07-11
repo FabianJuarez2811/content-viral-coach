@@ -3,7 +3,7 @@ export default function Home() {
   return (
     <div style={{ textAlign: 'center', marginTop: 100 }}>
       <h1>¡Bienvenido a tu plataforma IA!</h1>
-      <p>Accede al chat en <a href="/chat">/chat</a></p>
+      <p>Accede al chat en <a href="/Chat">/chat</a></p>
     </div>
   );
 }
