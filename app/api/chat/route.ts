@@ -39,10 +39,11 @@ export async function POST(req: NextRequest) {
     // 3. Buscar en Supabase usando la función match_page_sections
     const { data, error } = await supabase.rpc("match_page_sections", {
       embedding,
-      match_threshold: 0.2,
+      match_threshold: 0.01,
       match_count: 5,
       min_content_length: 20
     });
+    console.log("🔥 RESULTADO SUPABASE:", JSON.stringify(data), error);
 
     if (error) {
       console.log("⛔ ERROR SUPABASE:", error);
