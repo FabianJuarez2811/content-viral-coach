@@ -14,7 +14,7 @@ export default function ChatPage() {
     setMessages([...messages, { role: 'user', content: input }]);
     const res = await fetch('/api/chat', {
       method: 'POST',
-      body: JSON.stringify({ prompt: input }),
+      body: JSON.stringify({ query: input }),
       headers: { 'Content-Type': 'application/json' },
     });
     const data = await res.json();
