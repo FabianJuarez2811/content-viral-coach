@@ -1,4 +1,12 @@
-import Pricing from '@/components/ui/Pricing/Pricing';
+//import Pricing from '@/components/ui/Pricing/Pricing';
+export default function Home() {
+  return (
+    <div style={{ textAlign: 'center', marginTop: 100 }}>
+      <h1>¡Bienvenido a tu plataforma IA!</h1>
+      <p>Accede al chat en <a href="/chat">/chat</a></p>
+    </div>
+  );
+}
 import { createClient } from '@/utils/supabase/server';
 import {
   getProducts,
