@@ -22,21 +22,22 @@ export async function POST(req: NextRequest) {
       model: "text-embedding-ada-002",
     }),
   });
+
   const embeddingJson = await embeddingRes.json();
   const embedding = embeddingJson.data[0].embedding;
 
   // 2. Buscamos los contenidos relevantes usando la función RPC (RAG)
   const { data: matches, error } = await supabase.rpc("match_page_sections", {
-    embedding, // <<--- SOLO ESTE NOMBRE. No uses 'query_embedding'.
+    query_embedding: embedding,      // 👈 Nombre debe coincidir con tu función SQL
     match_threshold: 0.2,
     match_count: 5,
-    min_content_length: 20
+    min_content_length: 20,
   });
 
   if (error) {
-  console.log("Supabase RPC error:", error);
-  return NextResponse.json({ result: "Error buscando información en la base." });
-}
+    console.log("Supabase RPC error:", error);
+    return NextResponse.json({ result: "Error buscando información en la base." });
+  }
 
   if (!matches || matches.length === 0) {
     return NextResponse.json({ result: "No encontré información relevante en la base de conocimiento." });
@@ -45,7 +46,7 @@ export async function POST(req: NextRequest) {
   // 3. Armar el contexto con los matches
   const context = matches.map((m: any) => m.content).join("\n\n---\n\n");
 
-  // 4. Llamar a GPT-4o SOLO con ese contexto, y forzar que NO invente fuera de ahí
+  // 4. Llamar a GPT-4o SOLO con ese contexto
   const gptRes = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
     headers: {
@@ -53,7 +54,7 @@ export async function POST(req: NextRequest) {
       Authorization: `Bearer ${openai_key}`,
     },
     body: JSON.stringify({
-      model: "gpt-4o", // O "gpt-4"
+      model: "gpt-4o",
       messages: [
         {
           role: "system",
